@@ -1,36 +1,37 @@
 import React, { useState } from 'react';
 
-import MoviesList from './components/MoviesList';
+import UsersList from './components/UsersList';
 import './App.css';
 
 function App() {
-  const [movies, setMovies] = useState([]);
+  const [users, setUsers] = useState([]);
 
-  function fetchMoviesHandler() {
-    fetch('https://swapi.dev/api/films/')
+  function fetchUsersHandler() {
+    fetch('https://gorest.co.in/public/v2/users/')
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        const transformedMovies = data.results.map((movieData) => {
+        const transformedUsers = data.map((userData) => {
           return {
-            id: movieData.episode_id,
-            title: movieData.title,
-            openingText: movieData.opening_crawl,
-            releaseDate: movieData.release_date,
+            id: userData.id,
+            name: userData.name,
+            email: userData.email,
+            gender: userData.gender,
+            status: userData.status,
           };
         });
-        setMovies(transformedMovies);
+        setUsers(transformedUsers);
       });
   }
 
   return (
     <React.Fragment>
       <section>
-        <button onClick={fetchMoviesHandler}>Fetch Movies</button>
+        <button onClick={fetchUsersHandler}>Fetch Users</button>
       </section>
       <section>
-        <MoviesList movies={movies} />
+        <UsersList users={users} />
       </section>
     </React.Fragment>
   );
